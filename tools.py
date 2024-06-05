@@ -1,28 +1,32 @@
 import os
 import requests
-from typing import Dict, Any
+from whiterock.prompts import analyst_caller_agent
 
 
-def call_api(prompt: str = None) -> None:
+def call_api(
+    phone_number: str = "+17866955339",
+    prompt: str = None,
+    max_duration: int = 160,
+) -> None:
     """
     Makes an API call to create a new call using the Bland.ai API.
     """
     headers = {"Authorization": os.getenv("BLAND_API_KEY")}
 
     # Data
-    data: Dict[str, Any] = {
-        "phone_number": "+",
+    data = {
+        "phone_number": {phone_number},
         "from": None,
         "task": prompt,
-        "model": "turbo",
+        "model": "enhanced",
         "language": "en",
         "voice": "maya",
         "voice_settings": {},
         "local_dialing": False,
-        "max_duration": 12,
+        "max_duration": max_duration,
         "answered_by_enabled": False,
         "wait_for_greeting": False,
-        "record": False,
+        "record": True,
         "amd": False,
         "interruption_threshold": 100,
         "temperature": None,
@@ -45,3 +49,9 @@ def call_api(prompt: str = None) -> None:
 
 
 # Call the function
+out = call_api(
+    prompt=analyst_caller_agent(),
+    phone_number=7866955339,
+    max_duration=160,
+)
+print(out)
