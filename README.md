@@ -1,7 +1,12 @@
 # WhiteStone: The First Fully Autonomous VC Fund
 
 
+
 The idea for WhiteStone emerged during a pivotal event that underscored the inefficiencies and limitations of traditional venture capital (VC) operations. Our team observed that while VCs aim to identify and invest in high-potential startups, their decision-making processes are often constrained by human factors, time zones, and the necessity of physical presence. These limitations can hinder their ability to make timely, data-driven investment decisions. This inspired us to create WhiteStone, an autonomous VC fund that leverages advanced AI and operates 24/7 to provide superior returns and revolutionize the VC landscape.
+
+
+## Install
+`$ pip3 install whiterock`
 
 ## What It Does
 
