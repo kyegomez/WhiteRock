@@ -1,9 +1,10 @@
 from swarms import BaseSwarm, Agent
 from typing import List
 from swarms import Conversation
-from whiterock.agents import principal_investor, due_diligence_agent
 from whiterock.prompts import analyst_caller_agent
 from whiterock.tools import call_api, fetch_transcription
+from swarms.utils.loguru_logger import logger
+
 
 class WhiteRock(BaseSwarm):
     """
@@ -67,49 +68,55 @@ class WhiteRock(BaseSwarm):
 
         """
         loop = 0
-        
-        for _ in range(self.max_loops):
-            # Combine strings into one
-            out = f"{analyst_caller_agent()} {task}"
 
-            transcription = call_api(
-                self.phone_number,
-                max_duration=self.phone_call_duration,
-                prompt=out,
-            )
+        # Combine strings into one
+        out = f"{analyst_caller_agent()} {task}"
 
-            out = fetch_transcription(transcription, max_duration=self.phone_call_duration)
+        transcription = call_api(
+            self.phone_number,
+            max_duration=self.phone_call_duration,
+            prompt=out,
+        )
+        logger.info(f"Calling API with task: {transcription}")
 
-            self.history.add(
-                role="Due Diligence Agent",
-                content=out,
-            )
+        out = fetch_transcription(
+            transcription, max_duration=self.phone_call_duration
+        )
+        logger.info(f"Fetching transcription with task: {task}")
 
-            # Due Diligence Agent
-            due_diligence_agent = self.agents[0]
-            out = due_diligence_agent.run(
-                self.history.return_history_as_string(), *args, **kwargs
-            )
-            print(out)
-            self.history.add(
-                role="Due Diligence Agent",
-                content=out,
-            )
-            # Function call to mercury, add docs into a folder so rag can pick it up
-            # Function call to rag, add perplexity agent to the rag agent so it can search the web for more information
+        self.history.add(
+            role="Due Diligence Agent",
+            content=out,
+        )
 
-            # Principal Investor Agent
-            principal_investor_agent = self.agents[1]
-            out = principal_investor_agent.run(
-                self.history.return_history_as_string(), *args, **kwargs
-            )
-            print(out)
-            self.history.add(
-                role="Principal Investor Agent",
-                content=out,
-            )
-            
-            loop += 1
+        # Due Diligence Agent
+        logger.info(f"Due Diligence Agent with task: {task}")
+        due_diligence_agent = self.agents[0]
+        out = due_diligence_agent.run(
+            self.history.return_history_as_string(), *args, **kwargs
+        )
+        print(out)
+        self.history.add(
+            role="Due Diligence Agent",
+            content=out,
+        )
+        # Function call to mercury, add docs into a folder so rag can pick it up
+        # Function call to rag, add perplexity agent to the rag agent so it can search the web for more information
+
+        # Principal Investor Agent
+        logger.info(f"Principal Investor Agent with task: {task}")
+        principal_investor_agent = self.agents[1]
+        out = principal_investor_agent.run(
+            self.history.return_history_as_string(), *args, **kwargs
+        )
+        print(out)
+        self.history.add(
+            role="Principal Investor Agent",
+            content=out,
+        )
+
+        loop += 1
+
+        logger.info(f"Loop: {loop} completed.")
 
         return out
-
