@@ -88,3 +88,6 @@ As we look to the future, several exciting developments are on the horizon for W
 ## Conclusion
 
 WhiteRock represents a pioneering step in the evolution of venture capital. By leveraging AI and automation, we aim to create a more efficient, scalable, and impactful investment process. Our journey is just beginning, and we are excited to continue pushing the boundaries of what’s possible in the world of venture capital.
+
+# Next steps
+- [Tool Integrations: Mercury for bank transcations, api for sending money, api for trackinv investments like carta]
