@@ -6,7 +6,10 @@ The idea for WhiteRock emerged during a pivotal event that underscored the ineff
 
 
 ## Install
-`$ pip3 install whiterock`
+
+```bash
+$ pip3 install whiterock
+```
 
 ## ENVs
 ```
