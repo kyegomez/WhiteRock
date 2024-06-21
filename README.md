@@ -8,6 +8,12 @@ The idea for WhiteRock emerged during a pivotal event that underscored the ineff
 ## Install
 `$ pip3 install whiterock`
 
+## ENVs
+```
+BLAND_API_KEY=""
+OPENAI_API_KEY=""
+```
+
 ## Usage
 ```python
 from whiterock.main import WhiteRock
